@@ -4,10 +4,6 @@ This demo is intended to demonstrate how to create codepipelines on AWS using Te
 
 # Implementation
 
-## HLD
-
-![Create a AWS Codepipeline with Terraform](./img/Codepipeline_Architechture.png "Create a AWS Codepipeline with Terraform")
-
 ![Deploy FastAPI using a AWS Codepipeline with Terraform](./img/Serverless_API_deployment.png "Deploy FastAPI using a AWS Codepipeline with Terraform")
 
 We will be provisioning AWS Codepipeline and its supporting AWS Services like `AWS Codbuild` and `AWS CodeCommit` and `AWS S3` and finally using the provisioned codepipeline to provision lambda resource and deploy a sample lambda application `ref folder: serverless-fastapi-demo` into AWS.
@@ -29,27 +25,19 @@ To achieve this, follow the pre-requisites steps below
 ## Folder Structure
 
 ```
-.
-├── main.tf
-├── modules
-│   ├── codecommit
-│   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   └── variables.tf
-│   └── codepipeline
-│       ├── main.tf
-│       ├── outputs.tf
-│       ├── roles.tf
-│       ├── templates
-│       │   ├── buildspec_build.yml
-│       │   ├── buildspec_deploy.yml
-│       │   └── buildspec_upload.yml
-│       └── variables.tf
-├── outputs.tf
-├── providers.tf
-├── terraform.tfvars
-├── variables.tf
-└── versions.tf
+Serverless-Fastapi-Demo/fastapi_devops_serverless_code_repo
+├── README.md
+├── Serverless API deployment.png
+├── books.json
+├── lambda_terraform
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── terraform.tfvars
+│   ├── variables.tf
+│   └── versions.tf
+├── main.py
+└── requirements.txt
 ```
 
 ## Provision Infrastructure

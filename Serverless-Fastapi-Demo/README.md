@@ -24,10 +24,15 @@ To achieve this, follow the pre-requisites steps below
 3. Configure AWS CLI with AWS Account do `aws sts get-caller-identity` for validation) : [link](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
 4. Create a S3 Bucket in us-east-1. This bucket will be used to store the terraform state file. Note the bucket arn as it will be used in the steps below.
 
-## Folder Structure
+## Folder Structure for Infrastructure provision
 
 ```
-.
+Serverless-Fastapi-Demo/provision-aws-infra
+├── README.md
+├── img
+│   ├── Codepipeline_Architechture.png
+│   ├── Serverless_API_deployment.png
+│   └── codepipeline-output.png
 ├── main.tf
 ├── modules
 │   ├── codecommit
@@ -48,6 +53,22 @@ To achieve this, follow the pre-requisites steps below
 ├── terraform.tfvars
 ├── variables.tf
 └── versions.tf
+```
+## Folder Structure for Infrastructure provision
+```
+Serverless-Fastapi-Demo/fastapi_devops_serverless_code_repo
+├── README.md
+├── Serverless API deployment.png
+├── books.json
+├── lambda_terraform
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── terraform.tfvars
+│   ├── variables.tf
+│   └── versions.tf
+├── main.py
+└── requirements.txt
 ```
 
 ## Provision Infrastructure
