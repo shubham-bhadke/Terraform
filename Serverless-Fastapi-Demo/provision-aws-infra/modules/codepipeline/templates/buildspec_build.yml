@@ -1,0 +1,35 @@
+
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo installing dependencies...
+      - pip install -t lib -r requirements.txt
+    finally:
+      - ls -lrt
+
+  build:
+    commands:
+      - echo `ls -lrt`
+      - echo Build started on `date`
+      - echo Building a zip for lambda...          
+      - (cd lib; zip ../lambda_function.zip -r .)
+      - echo Adding main.py and books.json
+      - zip lambda_function.zip -u main.py
+      - zip lambda_function.zip -u books.json
+    finally:
+      - ls -lrt
+
+  post_build:
+    commands:
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
+      - echo Build completed on `date`
+      - echo created lambda_function.zip successfully...
+    finally:
+      - ls -lrt
+
+artifacts:
+  files:
+     - '**.*'
+     - lambda_terraform/*

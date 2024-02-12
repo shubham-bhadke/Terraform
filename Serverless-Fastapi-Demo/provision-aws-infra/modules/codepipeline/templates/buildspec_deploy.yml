@@ -1,0 +1,30 @@
+
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - tf_version=$TERRAFORM_VERSION
+      - wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      - unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - curl -sSLo install.sh https://install.hclq.sh
+      - sh install.sh
+    finally:
+      - ls -lrt
+
+  build:
+    commands:
+      - ls -ltr
+      - echo Build started on `date`
+      - terraform --version
+      - cd lambda_terraform/
+      - echo Updating ENV_namespace in terraform.tfvars
+      - cat terraform.tfvars | hclq set 'env_namespace' $ENV_NAMESPACE | hclq set 'lambda_artifacts_bucket_name' $BUCKET_NAME | tee terraform.tfvars
+      - terraform init -input=false
+      - terraform validate
+      - terraform apply -auto-approve
+      - echo Build completed on `date`
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"

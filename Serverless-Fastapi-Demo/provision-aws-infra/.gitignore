@@ -1,0 +1,6 @@
+*.pyc
+lib
+*.zip
+*.tf
+.terrform
+.terrform.*

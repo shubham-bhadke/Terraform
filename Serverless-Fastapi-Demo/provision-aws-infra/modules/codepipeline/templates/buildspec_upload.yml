@@ -1,0 +1,20 @@
+
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo `ls -lrt`
+      - echo Build started on `date`
+      - echo uploding a zip for lambda on S3...          
+      - aws s3 rm s3://${BUCKET_NAME}/lambda_function.zip
+      - aws s3 cp lambda_function.zip s3://${BUCKET_NAME}/
+      - echo uploaded lambda_function.zip successfully...
+    finally:
+      - ls -lrt
+
+  post_build:
+    commands:
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
+    finally:
+      - ls -lrt
