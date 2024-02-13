@@ -39,7 +39,7 @@ To achieve this, follow the pre-requisites steps below
 
 Deploying the Infrastructure:
 
-1. Navigate to the directory `cd provision-vmware-infra/` 
+1. Navigate to the directory `cd Vsphare-Virtual-Machine/` 
 2. Open the file `terraform.tfvars` and change the the variable values as per your requirments. Example file below,
 ```
 vsphere_user     = ""
