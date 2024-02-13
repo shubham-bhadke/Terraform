@@ -7,13 +7,14 @@ import random
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from mangum import Mangum
-
+from fastapi import FastAPI, Response
+from fastapi.responses import HTMLResponse
 
 class Book(BaseModel):
     name: str
-    genre: Literal["fiction", "non-fiction"]
+    genre: str
     price: float
-    book_id: Optional[str] = uuid4().hex
+    book_id: str
 
 
 BOOKS_FILE = "books.json"
@@ -29,17 +30,31 @@ handler = Mangum(app)
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to my bookstore app!"}
+    return HTMLResponse(content="<span style='color:red; font-weight:bold; font-size: 50px;'>Welcome to my bookstore app!</span>")
 
 
-@app.get("/random-book")
+@app.get("/random-book", response_model=Book)
 async def random_book():
-    return random.choice(BOOKS)
+    with open(BOOKS_FILE, "r") as f:
+        books = json.load(f)
+
+    # Select a random book
+    random_book = random.choice(books)
+
+    return random_book
 
 
 @app.get("/list-books")
-async def list_books():
-    return {"books": BOOKS}
+async def list_books(response: Response):
+    with open(BOOKS_FILE, "r") as f:
+        books = json.load(f)
+
+    # Convert each book to a string and join them with newline characters
+    books_str = "\n".join(json.dumps(book) for book in books)
+
+    # Set content type and return the response
+    response.headers["Content-Type"] = "application/json"
+    return Response(content=books_str.encode(), media_type="application/json")
 
 
 @app.get("/book_by_index/{index}")
